@@ -1,11 +1,11 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "libft.h"
 
 int ft_countdigit(int c)
 {
     int ndigit;
 
+    if (c == 0)
+        return (1);
     ndigit = 0;
     if (c < 0)
     {
@@ -17,27 +17,34 @@ int ft_countdigit(int c)
         c = c / 10;
         ndigit++;
     }
+    return (ndigit);
 }
 
 char  *ft_itoa(int n)
 {
     char *ptr;
-    int i;
-
+    int  i;
+    if (n == -2147483648)
+        return (ft_strdup("-2147483648"));
     i = ft_countdigit(n); 
-    ptr = calloc(i, sizeof(char));
+    ptr = ft_calloc(i + 1, sizeof(char));
     if (ptr == NULL)
-        return(NULL);
+        return NULL;
+    if (n == 0)
+    {
+        ptr[0] = '0';
+        return (ptr);
+    }
     if (n < 0)
     {
         ptr[0] = '-';
         n = n * -1;
     }
-    while (n < 0)
+    while (n > 0)
     {
-        ptr[i] = n % 10;
+        ptr[i - 1] = n % 10 + '0';
         i--;
         n = n /10;
     }
-    return(ptr);
+    return (ptr);
 }
