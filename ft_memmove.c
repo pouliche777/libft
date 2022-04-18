@@ -1,45 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: slord <marvin@42quebec.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/04 16:43:56 by slord             #+#    #+#             */
-/*   Updated: 2022/04/13 12:06:25 by slord            ###   ########.fr       */
+/*   Created: 2022/03/28 16:40:33 by slord             #+#    #+#             */
+/*   Updated: 2022/04/13 12:37:25 by slord            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	char_inset(char c, const char *set)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	int	i;
+	unsigned char			*destination;
+	const unsigned char		*source;
+	size_t					i;
 
-	i = 0;
-	while (set[i])
-	{
-		if (set[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-char	*ft_strtrim(char const *s1, char const *set)
-{
-	int	end;
-
-	if (s1 == 0 || set == 0)
+	if (dest == NULL && src == NULL)
 		return (NULL);
-	while (s1 && char_inset(*s1, set))
+	i = 0;
+	source = (unsigned char *)src;
+	destination = (unsigned char *)dest;
+	if (destination > source)
 	{
-		s1++;
+		while (n > 0)
+		{
+			destination[n - 1] = source[n - 1];
+			n--;
+		}
 	}
-	end = ft_strlen(s1) - 1;
-	while (char_inset(s1[end], set) && end > 0)
+	else
 	{
-		end--;
+		while (i < n)
+		{
+			destination[i] = source[i];
+			i++;
+		}
 	}
-	return (ft_substr(s1, 0, (size_t)end +1));
+	return (dest);
 }

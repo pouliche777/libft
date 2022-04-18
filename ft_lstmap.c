@@ -1,45 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: slord <marvin@42quebec.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/04 16:43:56 by slord             #+#    #+#             */
-/*   Updated: 2022/04/13 12:06:25 by slord            ###   ########.fr       */
+/*   Created: 2022/04/18 15:11:13 by slord             #+#    #+#             */
+/*   Updated: 2022/04/18 16:19:30 by slord            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	char_inset(char c, const char *set)
+t_list *ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	int	i;
-
-	i = 0;
-	while (set[i])
-	{
-		if (set[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-char	*ft_strtrim(char const *s1, char const *set)
-{
-	int	end;
-
-	if (s1 == 0 || set == 0)
+	t_list  **n_list;
+   	n_list = NULL;	
+	if(!lst || !*f || !del)
 		return (NULL);
-	while (s1 && char_inset(*s1, set))
-	{
-		s1++;
-	}
-	end = ft_strlen(s1) - 1;
-	while (char_inset(s1[end], set) && end > 0)
-	{
-		end--;
-	}
-	return (ft_substr(s1, 0, (size_t)end +1));
+		ft_lstiter(lst, (*f));
+
+		while (lst)
+		{
+			ft_lstadd_back(n_list, lst);
+			lst = lst->next;
+		}
+	return (*n_list);
 }

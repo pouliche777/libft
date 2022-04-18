@@ -1,45 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: slord <marvin@42quebec.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/04 16:43:56 by slord             #+#    #+#             */
-/*   Updated: 2022/04/13 12:06:25 by slord            ###   ########.fr       */
+/*   Created: 2022/03/31 15:36:58 by slord             #+#    #+#             */
+/*   Updated: 2022/04/18 19:08:02 by slord            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	char_inset(char c, const char *set)
+int	ft_atoi(const char *str)
 {
 	int	i;
+	int	sign;
+	int	nb;
 
 	i = 0;
-	while (set[i])
+	sign = 1;
+	nb = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
 	{
-		if (set[i] == c)
-			return (1);
+		if (str[i] == '-')
+			sign *= -1;
 		i++;
 	}
-	return (0);
-}
-
-char	*ft_strtrim(char const *s1, char const *set)
-{
-	int	end;
-
-	if (s1 == 0 || set == 0)
-		return (NULL);
-	while (s1 && char_inset(*s1, set))
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		s1++;
+		nb = nb * 10 + str[i] - 48;
+		i++;
 	}
-	end = ft_strlen(s1) - 1;
-	while (char_inset(s1[end], set) && end > 0)
-	{
-		end--;
-	}
-	return (ft_substr(s1, 0, (size_t)end +1));
+	return (nb * sign);
 }

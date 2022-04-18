@@ -1,45 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: slord <marvin@42quebec.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/04 16:43:56 by slord             #+#    #+#             */
-/*   Updated: 2022/04/13 12:06:25 by slord            ###   ########.fr       */
+/*   Created: 2022/04/18 13:58:46 by slord             #+#    #+#             */
+/*   Updated: 2022/04/18 14:36:11 by slord            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	char_inset(char c, const char *set)
+void ft_lstclear(t_list **lst, void (*del)(void*))
 {
-	int	i;
+	t_list	*tempo;
 
-	i = 0;
-	while (set[i])
+	if (!del)
+		return ;
+	if (!*lst)
+		return ;
+	while (*lst)
 	{
-		if (set[i] == c)
-			return (1);
-		i++;
+		del((*lst)->content);
+		tempo = *lst;
+		*lst = (*lst)->next;
+		free(tempo);
 	}
-	return (0);
+	*lst = NULL;
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
-{
-	int	end;
 
-	if (s1 == 0 || set == 0)
-		return (NULL);
-	while (s1 && char_inset(*s1, set))
-	{
-		s1++;
-	}
-	end = ft_strlen(s1) - 1;
-	while (char_inset(s1[end], set) && end > 0)
-	{
-		end--;
-	}
-	return (ft_substr(s1, 0, (size_t)end +1));
-}

@@ -1,45 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: slord <marvin@42quebec.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/04 16:43:56 by slord             #+#    #+#             */
-/*   Updated: 2022/04/13 12:06:25 by slord            ###   ########.fr       */
+/*   Created: 2022/04/04 13:28:05 by slord             #+#    #+#             */
+/*   Updated: 2022/04/18 18:04:10 by slord            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	char_inset(char c, const char *set)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	int	i;
+	char	*ptr;
 
-	i = 0;
-	while (set[i])
-	{
-		if (set[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-char	*ft_strtrim(char const *s1, char const *set)
-{
-	int	end;
-
-	if (s1 == 0 || set == 0)
+	if (s == NULL)
 		return (NULL);
-	while (s1 && char_inset(*s1, set))
+	if (len > ft_strlen(s))
+		len = ft_strlen(s);
+	if (start >= ft_strlen((char *)s))
 	{
-		s1++;
+		ptr = ft_calloc(len + 1, sizeof(char));
+		if (ptr == NULL)
+			return (NULL);
+		return (ptr);
 	}
-	end = ft_strlen(s1) - 1;
-	while (char_inset(s1[end], set) && end > 0)
-	{
-		end--;
-	}
-	return (ft_substr(s1, 0, (size_t)end +1));
+	else
+	   	ptr = ft_calloc(len + 1, sizeof(char));
+		if (ptr == NULL)
+			return (NULL);
+		ft_strlcpy(ptr, s + start, len + 1);
+		return (ptr);
 }
